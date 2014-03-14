@@ -7,7 +7,7 @@ export FLAGS=""
 export CD="cd"
 export MKDIR="mkdir"
 export CLASSPATH=""
-export TEST_CLASSPATH="lib/junit-4.11.jar:lib/hamcrest-core-1.3.jar:lib/selenium-java-2.40.0.jar:lib/selenium-server-standalone-2.40.0.jar:"
+export TEST_CLASSPATH=""
 
 help:
 	@echo "****************************************************"
@@ -32,12 +32,16 @@ build-structure:
 compile: build-structure
 compile:
 	@echo "compiling java files...";\
+	CLASSPATH="";\
+	for i in `find lib -name "*.jar"`; do\
+		CLASSPATH="$$i:$$CLASSPATH";\
+	done;\
 	for i in `find src -d -name *.java | tail -r`; do\
 		PKG_DIR=`echo "$$i" | sed "s/\(src.*\)\/.*\.java/\1/"`;\
 		CLASS_FILE=`echo "$$i" | sed "s/src\/\(.*\)\.java/.\/build\/\1\.class/"`;\
         if [ $$CLASS_FILE -ot $$i ]; then\
 			echo "recompiling $$i...";\
-			$(JC) -d build -cp "$(CLASSPATH)build/" $$PKG_DIR/*.java;\
+			$(JC) -d build -cp "$$CLASSPATH:build/" $$PKG_DIR/*.java;\
 		fi;\
 	done
 
@@ -53,7 +57,11 @@ run: jar
 run:
 	@echo "Running...";\
 	echo "";\
-	$(JVM) -jar package.jar;\
+	CLASSPATH="";\
+	for i in `find lib -name "*.jar"`; do\
+		CLASSPATH="$$i:$$CLASSPATH";\
+	done;\
+	$(JVM) -cp "$$CLASSPATH" -jar package.jar;\
 	echo "";
 
 init:
@@ -61,17 +69,25 @@ init:
 
 junit: test-compile
 	@echo "running jUnit tests...";\
+	TEST_CLASSPATH="";\
+	for i in `find test/lib -name "*.jar"`; do\
+		TEST_CLASSPATH="$$i:$$TEST_CLASSPATH";\
+	done;\
 	TESTS=`find test/build -name *.class | sed "s/\//./g" | sed "s/\.class//" | sed "s/test\.build\.//"`;\
-	$(JVM) -cp "$(TEST_CLASSPATH):test/build/:build/" org.junit.runner.JUnitCore $$TESTS
+	$(JVM) -cp "$$TEST_CLASSPATH:test/build/:build/" org.junit.runner.JUnitCore $$TESTS
 
 test-compile: compile test-build-structure
 	@echo "compiling java files...";\
+	TEST_CLASSPATH="";\
+	for i in `find test/lib -name "*.jar"`; do\
+		TEST_CLASSPATH="$$i:$$TEST_CLASSPATH";\
+	done;\
 	for i in `find test/src -d -name *.java | tail -r`; do\
 		PKG_DIR=`echo "$$i" | sed "s/\(test\/src.*\)\/.*\.java/\1/"`;\
 		CLASS_FILE=`echo "$$i" | sed "s/test\/src\/\(.*\)\.java/test\/build\/\1\.class/"`;\
         if [ $$CLASS_FILE -ot $$i ]; then\
 			echo "recompiling $$i...";\
-			$(JC) -d test/build -cp "$(TEST_CLASSPATH):test/build/:build/" $$PKG_DIR/*.java;\
+			$(JC) -d test/build -cp "$$TEST_CLASSPATH:test/build/:build/" $$PKG_DIR/*.java;\
 		fi;\
 	done
 
