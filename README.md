@@ -17,4 +17,5 @@ TODO
 - There might be some dependency issues while compiling source files.
 - JPA jar files and generation of configuration files
 - Support the generation of war files for web projects.
+- Include automatically all jar files in the lib Folder (easy).
 
