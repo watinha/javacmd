@@ -1,0 +1,93 @@
+export JVM="java"
+export JC="javac"
+export JAR="jar"
+export SH="sh"
+export RM="rm"
+export FLAGS=""
+export CD="cd"
+export MKDIR="mkdir"
+export CLASSPATH=""
+export TEST_CLASSPATH="lib/junit-4.11.jar:lib/hamcrest-core-1.3.jar:lib/selenium-java-2.40.0.jar:lib/selenium-server-standalone-2.40.0.jar:"
+
+help:
+	@echo "****************************************************"
+	@echo "*****      \033[1;34mJava Makefile help\033[0;0m                  *****"
+	@echo "****************************************************"
+	@echo "    - Make sure all your .java source codes are placed inside the src/ directory"
+	@echo ""
+	@echo "    \033[32mcompile     :\033[0m    - compile all .java files in the build directory"
+	@echo "    \033[32mjar         :\033[0m    - generate a .jar file for the application"
+	@echo "    \033[32mrun         :\033[0m    - run the .jar file"
+	@echo "    \033[32mtest-compile:\033[0m    - compile the test files"
+	@echo "    \033[32mjunit       :\033[0m    - run all test files"
+	@echo "\n"
+
+build-structure:
+	@echo "setting directory structure...";\
+	for i in `find src -name *.java`; do\
+		PKG_DIR=`echo "$$i" | sed "s/src\(.*\)\/.*\.java/build\1/"`;\
+		[ -d $$PKG_DIR ] || $(MKDIR) -p $$PKG_DIR;\
+	done
+
+compile: build-structure
+compile:
+	@echo "compiling java files...";\
+	for i in `find src -d -name *.java | tail -r`; do\
+		PKG_DIR=`echo "$$i" | sed "s/\(src.*\)\/.*\.java/\1/"`;\
+		CLASS_FILE=`echo "$$i" | sed "s/src\/\(.*\)\.java/.\/build\/\1\.class/"`;\
+        if [ $$CLASS_FILE -ot $$i ]; then\
+			echo "recompiling $$i...";\
+			$(JC) -d build -cp "$(CLASSPATH)build/" $$PKG_DIR/*.java;\
+		fi;\
+	done
+
+jar: compile
+jar:
+	@MAIN=`grep -r "public static void main" src/* | grep -v .swp| sed "s/src\/\(.*\).java:.*/\1/"`;\
+	echo "The main class of the jar file is: $$MAIN";\
+	$(CD) build;\
+	$(JAR) cvfe ../package.jar $$MAIN *;\
+	$(CD) ..
+
+run: jar
+run:
+	@echo "Running...";\
+	echo "";\
+	$(JVM) -jar package.jar;\
+	echo "";
+
+init:
+	-@$(MKDIR) src lib build test test/build test/src
+
+junit: test-compile
+	@echo "running jUnit tests...";\
+	TESTS=`find test/build -name *.class | sed "s/\//./g" | sed "s/\.class//" | sed "s/test\.build\.//"`;\
+	$(JVM) -cp "$(TEST_CLASSPATH):test/build/:build/" org.junit.runner.JUnitCore $$TESTS
+
+test-compile: compile test-build-structure
+	@echo "compiling java files...";\
+	for i in `find test/src -d -name *.java | tail -r`; do\
+		PKG_DIR=`echo "$$i" | sed "s/\(test\/src.*\)\/.*\.java/\1/"`;\
+		CLASS_FILE=`echo "$$i" | sed "s/test\/src\/\(.*\)\.java/test\/build\/\1\.class/"`;\
+        if [ $$CLASS_FILE -ot $$i ]; then\
+			echo "recompiling $$i...";\
+			$(JC) -d test/build -cp "$(TEST_CLASSPATH):test/build/:build/" $$PKG_DIR/*.java;\
+		fi;\
+	done
+
+test-build-structure:
+	@echo "setting directory structure...";\
+	for i in `find test -name *.java`; do\
+		PKG_DIR=`echo "$$i" | sed "s/test\/src\(.*\)\/.*\.java/test\/build\1/"`;\
+		[ -d $$PKG_DIR ] || $(MKDIR) -p $$PKG_DIR;\
+	done
+
+clean:
+	@echo "cleanning build files...";\
+	$(RM) -rf build;\
+	$(RM) -rf test/build;\
+    $(MKDIR) build;\
+    $(MKDIR) test/build;\
+	$(RM) *.jar
+
+.PHONY: build-structure compile clean run help init jar junit
