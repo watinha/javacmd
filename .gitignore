@@ -1,3 +1,4 @@
 package.jar
 *.swp
 *.class
+.DS_Store
