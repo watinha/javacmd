@@ -42,6 +42,9 @@ compile:
         if [ $$CLASS_FILE -ot $$i ]; then\
 			echo "recompiling $$i...";\
 			$(JC) -d build -cp "$$CLASSPATH:build/" $$PKG_DIR/*.java;\
+			if [ $$? -ne 0 ]; then\
+				exit 1;\
+			fi;\
 		fi;\
 	done
 
@@ -88,6 +91,9 @@ test-compile: compile test-build-structure
         if [ $$CLASS_FILE -ot $$i ]; then\
 			echo "recompiling $$i...";\
 			$(JC) -d test/build -cp "$$TEST_CLASSPATH:test/build/:build/" $$PKG_DIR/*.java;\
+			if [ $$? -ne 0 ]; then\
+				exit 1;\
+			fi;\
 		fi;\
 	done
 
