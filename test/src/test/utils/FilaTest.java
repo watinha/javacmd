@@ -28,7 +28,7 @@ public class FilaTest {
 
     @Test
     public void testFilaRecebeUmElemento () {
-        Fila f = new Fila <String>(5);
+        Fila f = new Fila (5);
         f.enfileirar("Joan");
         String result = f.toString();
         org.junit.Assert.assertEquals(
@@ -37,7 +37,7 @@ public class FilaTest {
 
     @Test
     public void testFilaRecebeVariosElementos () {
-        Fila f = new Fila <String> (5);
+        Fila f = new Fila (5);
         f.enfileirar("Joan");
         f.enfileirar("Lucas");
         f.enfileirar("Matheus");
@@ -52,7 +52,7 @@ public class FilaTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testFilaRemoveOsPrimeiros () {
-        Fila <String> f = new Fila <String> (5);
+        Fila f = new Fila (5);
         String removido;
         f.enfileirar("Joan");
         f.enfileirar("Lucas");
@@ -68,7 +68,7 @@ public class FilaTest {
 
     @Test
     public void testFilaContinuaCom5ElementosAposRemoverTudo () {
-        Fila f = new Fila <String>(5);
+        Fila f = new Fila(5);
         f.enfileirar("Joan");
         f.enfileirar("Lucas");
         f.enfileirar("Matheus");

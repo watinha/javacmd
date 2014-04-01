@@ -1,8 +1,8 @@
 package utils;
 
-public class Fila <T> {
+public class Fila {
     public static void main (String args[]) {
-        Fila <String>f = new Fila <String>(5);
+        Fila f = new Fila (5);
         f.enfileirar("Abobrinha");
         f.enfileirar("Abobrinha 1");
         f.enfileirar("Abobrinha 2");
@@ -11,25 +11,25 @@ public class Fila <T> {
         System.out.println(f);
     }
 
-    public Object [] lista;
+    public String [] lista;
     public int fim;
 
     public Fila (int tamanho) {
-        this.lista = new Object[tamanho];
+        this.lista = new String[tamanho];
         this.fim = 0;
     }
 
     @SuppressWarnings("unchecked")
-    public T desenfileirar () {
-        Object primeiro = this.lista[0];
+    public String desenfileirar () {
+        String primeiro = this.lista[0];
         for (int i = 1; i < this.fim; i++)
             this.lista[i - 1] = this.lista[i];
         this.fim--;
-        return (T) primeiro;
+        return primeiro;
     }
 
-    public void enfileirar (T aluno) {
-        this.lista[this.fim] = (Object) aluno;
+    public void enfileirar (String aluno) {
+        this.lista[this.fim] = aluno;
         this.fim++;
     }
 
