@@ -36,7 +36,7 @@ compile:
 	for i in `find lib -name "*.jar"`; do\
 		CLASSPATH="$$i:$$CLASSPATH";\
 	done;\
-	for i in `find src -d -name *.java | tail -r`; do\
+	for i in `find src -depth -name *.java | tail`; do\
 		PKG_DIR=`echo "$$i" | sed "s/\(src.*\)\/.*\.java/\1/"`;\
 		CLASS_FILE=`echo "$$i" | sed "s/src\/\(.*\)\.java/.\/build\/\1\.class/"`;\
         if [ $$CLASS_FILE -ot $$i ]; then\
@@ -85,7 +85,7 @@ test-compile: compile test-build-structure
 	for i in `find test/lib -name "*.jar"`; do\
 		TEST_CLASSPATH="$$i:$$TEST_CLASSPATH";\
 	done;\
-	for i in `find test/src -d -name *.java | tail -r`; do\
+	for i in `find test/src -depth -name *.java | tail`; do\
 		PKG_DIR=`echo "$$i" | sed "s/\(test\/src.*\)\/.*\.java/\1/"`;\
 		CLASS_FILE=`echo "$$i" | sed "s/test\/src\/\(.*\)\.java/test\/build\/\1\.class/"`;\
         if [ $$CLASS_FILE -ot $$i ]; then\
