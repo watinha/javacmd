@@ -40,8 +40,8 @@ compile:
 	for i in `find src -depth -name *.java | nl | sort -nr | cut -f 2-`; do\
 		PKG_DIR=`echo "$$i" | sed "s/\(src.*\)\/.*\.java/\1/"`;\
 		CLASS_FILE=`echo "$$i" | sed "s/src\/\(.*\)\.java/.\/build\/\1\.class/"`;\
-        if [ $$CLASS_FILE -ot $$i ]; then\
-			echo "recompiling $$i...";\
+        if [ ! -e $$CLASS_FILE -o $$CLASS_FILE -ot $$i ]; then\
+			echo "recompiling $$PKG_DIR/*.java...";\
 			$(JC) -d build -cp "$$CLASSPATH:build/" $$PKG_DIR/*.java;\
 			if [ $$? -ne 0 ]; then\
 				exit 1;\
@@ -89,8 +89,8 @@ test-compile: compile test-build-structure
 	for i in `find test/src -depth -name *.java | nl | sort -nr | cut -f 2-`; do\
 		PKG_DIR=`echo "$$i" | sed "s/\(test\/src.*\)\/.*\.java/\1/"`;\
 		CLASS_FILE=`echo "$$i" | sed "s/test\/src\/\(.*\)\.java/test\/build\/\1\.class/"`;\
-        if [ $$CLASS_FILE -ot $$i ]; then\
-			echo "recompiling $$i...";\
+        if [ ! -e $$CLASS_FILE -o $$CLASS_FILE -ot $$i ]; then\
+			echo "recompiling $$PKG_DIR/*.java...";\
 			$(JC) -d test/build -cp "$$TEST_CLASSPATH:test/build/:build/" $$PKG_DIR/*.java;\
 			if [ $$? -ne 0 ]; then\
 				exit 1;\
