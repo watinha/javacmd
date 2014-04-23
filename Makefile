@@ -69,7 +69,7 @@ run:
 	echo "";
 
 init:
-	-@$(MKDIR) src lib build test test/build test/src
+	-@$(MKDIR) src lib build test test/build test/src test/lib
 
 junit: test-compile
 	@echo "running jUnit tests...";\
