@@ -15,6 +15,7 @@ For more information, try asking the project itself for help
 TODO
 ====
 - There might be some dependency issues while compiling source files.
-- JPA jar files and generation of configuration files
+- Perhaps using a JDBC in the beginning might be a good idea
 - Support the generation of war files for web projects.
+- JPA jar files and generation of configuration files
 
