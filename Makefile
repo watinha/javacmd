@@ -23,14 +23,6 @@ help:
 	@echo "    \033[32mjunit       :\033[0m    - run all test files"
 	@echo "\n"
 
-build-structure:
-	@echo "setting directory structure...";\
-	for i in `find src -name *.java`; do\
-		PKG_DIR=`echo "$$i" | sed "s/src\(.*\)\/.*\.java/build\1/"`;\
-		[ -d $$PKG_DIR ] || $(MKDIR) -p $$PKG_DIR;\
-	done
-
-compile: build-structure
 compile:
 	@echo "compiling java files...";\
 	CLASSPATH="";\
@@ -80,7 +72,7 @@ junit: test-compile
 	TESTS=`find test/build -name *Test.class | sed "s/\//./g" | sed "s/\.class//" | sed "s/test\.build\.//"`;\
 	$(JVM) -cp "$$TEST_CLASSPATH:test/build/:build/" org.junit.runner.JUnitCore $$TESTS
 
-test-compile: compile test-build-structure
+test-compile: compile
 	@echo "compiling java files...";\
 	TEST_CLASSPATH="";\
 	for i in `find test/lib -name "*.jar"`; do\
@@ -98,13 +90,6 @@ test-compile: compile test-build-structure
 		fi;\
 	done
 
-test-build-structure:
-	@echo "setting directory structure...";\
-	for i in `find test -name *.java`; do\
-		PKG_DIR=`echo "$$i" | sed "s/test\/src\(.*\)\/.*\.java/test\/build\1/"`;\
-		[ -d $$PKG_DIR ] || $(MKDIR) -p $$PKG_DIR;\
-	done
-
 clean:
 	@echo "cleanning build files...";\
 	$(RM) -rf build;\
@@ -113,4 +98,4 @@ clean:
     $(MKDIR) test/build;\
 	$(RM) *.jar
 
-.PHONY: build-structure compile clean run help init jar junit
+.PHONY: compile clean run help init jar junit
