@@ -37,7 +37,7 @@ public class FilaTest {
 
         org.junit.Assert.assertEquals(
             "Verificando o estado da fila",
-            "Luma", ru.toString());
+            "[ Luma ]", ru.toString());
     }
 
     @Test
@@ -49,29 +49,7 @@ public class FilaTest {
 
         org.junit.Assert.assertEquals(
             "Verificando o estado da fila",
-            "Marcelo, Leticia", ru.toString());
-    }
-
-    @Test
-    public void testFilaVazia () {
-        Fila ru = new Fila(4);
-
-        org.junit.Assert.assertEquals(
-            "Verificando o estado da fila",
-            "", ru.toString());
-    }
-
-    @Test
-    public void testFilaCheia () {
-        Fila ru = new Fila(2);
-
-        ru.enfileirar("Rafael");
-        ru.enfileirar("Bernardo");
-        ru.enfileirar("Diogo");
-
-        org.junit.Assert.assertEquals(
-            "Verificando o estado da fila",
-            "Rafael, Bernardo", ru.toString());
+            "[ Marcelo,Leticia ]", ru.toString());
     }
 
     @Test
@@ -119,6 +97,6 @@ public class FilaTest {
 
         org.junit.Assert.assertEquals(
             "Verificando o estado da fila",
-            "Jonas, Filipe, Daniel", ru.toString());
+            "[ Jonas,Filipe,Daniel ]", ru.toString());
     }
 }

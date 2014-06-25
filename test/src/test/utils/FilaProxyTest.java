@@ -23,7 +23,7 @@ public class FilaProxyTest {
 
         org.junit.Assert.assertEquals(
             "testando para ver se construtor existe",
-            "[1]Gabriel, [2]Gisele", f.toString());
+            "[ [1]Gabriel,[2]Gisele ]", f.toString());
     }
 
     @Test
