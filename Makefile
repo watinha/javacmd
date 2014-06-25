@@ -26,6 +26,7 @@ help:
 compile:
 	@echo "compiling java files...";\
 	CLASSPATH="";\
+	CHANGED="";\
 	for i in `find lib -name "*.jar"`; do\
 		CLASSPATH="$$i:$$CLASSPATH";\
 	done;\
@@ -34,12 +35,13 @@ compile:
 		CLASS_FILE=`echo "$$i" | sed "s/src\/\(.*\)\.java/.\/build\/\1\.class/"`;\
         if [ ! -e $$CLASS_FILE -o $$CLASS_FILE -ot $$i ]; then\
 			echo "recompiling $$PKG_DIR/*.java...";\
-			$(JC) -d build -cp "$$CLASSPATH:build/" $$PKG_DIR/*.java;\
+			CHANGED="$$i $$CHANGED";\
 			if [ $$? -ne 0 ]; then\
 				exit 1;\
 			fi;\
 		fi;\
-	done
+	done;\
+	$(JC) -d build -cp "$$CLASSPATH:build/" $$PKG_DIR/*.java;
 
 jar: compile
 jar:
