@@ -41,11 +41,15 @@ compile:
 			fi;\
 		fi;\
 	done;\
-	$(JC) -d build -cp "$$CLASSPATH:build/" $$CHANGED;
+	if [ "$$CHANGED" ]; then\
+		$(JC) -d build -cp "$$CLASSPATH:build/" $$CHANGED;\
+	else\
+		echo "No changed files.";\
+	fi;
 
 jar: compile
 jar:
-	@MAIN=`grep -r "public static void main" src/* | grep -v .swp| sed "s/src\/\(.*\).java:.*/\1/"`;\
+	@MAIN=`grep -r "public static void main" src/* | grep -v .swp| sed "s/src\/\(.*\).java:.*/\1/" | head -n 1`;\
 	echo "The main class of the jar file is: $$MAIN";\
 	$(CD) build;\
 	$(JAR) cvfe ../package.jar $$MAIN *;\
