@@ -35,13 +35,13 @@ compile:
 		CLASS_FILE=`echo "$$i" | sed "s/src\/\(.*\)\.java/.\/build\/\1\.class/"`;\
         if [ ! -e $$CLASS_FILE -o $$CLASS_FILE -ot $$i ]; then\
 			echo "recompiling $$PKG_DIR/*.java...";\
-			CHANGED="$$i $$CHANGED";\
+			CHANGED="$$CHANGED $$i";\
 			if [ $$? -ne 0 ]; then\
 				exit 1;\
 			fi;\
 		fi;\
 	done;\
-	$(JC) -d build -cp "$$CLASSPATH:build/" $$PKG_DIR/*.java;
+	$(JC) -d build -cp "$$CLASSPATH:build/" $$CHANGED;
 
 jar: compile
 jar:
