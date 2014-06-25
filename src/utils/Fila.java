@@ -1,12 +1,16 @@
 package utils;
 
-public class Fila {
+public class Fila implements IFila {
     public String [] lista;
     public int fim;
 
     public Fila (int tamanho) {
         this.lista = new String[tamanho];
         this.fim = 0;
+    }
+
+    public int getTamanho () {
+        return this.lista.length;
     }
 
     @SuppressWarnings("unchecked")

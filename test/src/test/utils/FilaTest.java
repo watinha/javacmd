@@ -12,79 +12,113 @@ import utils.Fila;
 public class FilaTest {
 
     @Test
-    public void harnessTest () {
-        org.junit.Assert.assertEquals(
-            "Harness test... 4 should be equals to 3 + 1",
-            (3 + 1), 4);
-    }
-
-    @Test
-    public void testFilaReturnsEmptyArray () {
+    public void testConstrutorComParametros () {
         Fila f = new Fila(5);
-        String result = f.toString();
+
         org.junit.Assert.assertEquals(
-            "should return empty array", "[ ]", result);
+            "testando para ver se construtor existe",
+            5, f.getTamanho());
     }
 
     @Test
-    public void testFilaRecebeUmElemento () {
-        Fila f = new Fila (5);
-        f.enfileirar("Joan");
-        String result = f.toString();
+    public void testConstrutorComParametrosArmazenaParametro () {
+        Fila f = new Fila(4);
+
         org.junit.Assert.assertEquals(
-            "should return array with an element", "[ Joan ]", result);
+            "testando para ver se construtor existe",
+            4, f.getTamanho());
     }
 
     @Test
-    public void testFilaRecebeVariosElementos () {
-        Fila f = new Fila (5);
-        f.enfileirar("Joan");
-        f.enfileirar("Lucas");
-        f.enfileirar("Matheus");
-        f.enfileirar("Willian");
-        f.enfileirar("Jenny");
-        String result = f.toString();
+    public void testEnfileirarRecebe1Elemento () {
+        Fila ru = new Fila(4);
+
+        ru.enfileirar("Luma");
+
         org.junit.Assert.assertEquals(
-            "should return array with an element",
-            "[ Joan,Lucas,Matheus,Willian,Jenny ]", result);
+            "Verificando o estado da fila",
+            "Luma", ru.toString());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    public void testFilaRemoveOsPrimeiros () {
-        Fila f = new Fila (5);
-        String removido;
-        f.enfileirar("Joan");
-        f.enfileirar("Lucas");
-        f.enfileirar("Matheus");
-        f.enfileirar("Willian");
-        f.enfileirar("Jenny");
+    public void testEnfileirarRecebe2Elementos () {
+        Fila ru = new Fila(4);
 
-        removido = (String) f.desenfileirar();
+        ru.enfileirar("Marcelo");
+        ru.enfileirar("Leticia");
+
         org.junit.Assert.assertEquals(
-            "should remove the first inserted",
-            "Joan", removido);
+            "Verificando o estado da fila",
+            "Marcelo, Leticia", ru.toString());
     }
 
     @Test
-    public void testFilaContinuaCom5ElementosAposRemoverTudo () {
-        Fila f = new Fila(5);
-        f.enfileirar("Joan");
-        f.enfileirar("Lucas");
-        f.enfileirar("Matheus");
-        f.enfileirar("Willian");
-        f.enfileirar("Jenny");
+    public void testFilaVazia () {
+        Fila ru = new Fila(4);
 
-        f.desenfileirar();
-        f.enfileirar("Newton");
-        f.desenfileirar();
-        f.desenfileirar();
-        f.desenfileirar();
-
-        String result = f.toString();
         org.junit.Assert.assertEquals(
-            "should present two elements",
-            "[ Jenny,Newton ]", result);
+            "Verificando o estado da fila",
+            "", ru.toString());
     }
 
+    @Test
+    public void testFilaCheia () {
+        Fila ru = new Fila(2);
+
+        ru.enfileirar("Rafael");
+        ru.enfileirar("Bernardo");
+        ru.enfileirar("Diogo");
+
+        org.junit.Assert.assertEquals(
+            "Verificando o estado da fila",
+            "Rafael, Bernardo", ru.toString());
+    }
+
+    @Test
+    public void testDesenfileirarUmElemento () {
+        Fila ru = new Fila(2);
+
+        ru.enfileirar("Rafael");
+        ru.enfileirar("Bernardo");
+
+        org.junit.Assert.assertEquals(
+            "Verificando o estado da fila",
+            "Rafael", ru.desenfileirar());
+    }
+
+    @Test
+    public void testDesenfileirarTresElementos () {
+        Fila ru = new Fila(3);
+
+        ru.enfileirar("Diogo");
+        ru.enfileirar("Jonas");
+        ru.enfileirar("Filipe");
+
+        org.junit.Assert.assertEquals(
+            "Verificando o estado da fila",
+            "Diogo", ru.desenfileirar());
+        org.junit.Assert.assertEquals(
+            "Verificando o estado da fila",
+            "Jonas", ru.desenfileirar());
+        org.junit.Assert.assertEquals(
+            "Verificando o estado da fila",
+            "Filipe", ru.desenfileirar());
+    }
+
+    @Test
+    public void testEncherAFilaERemoverEInserirUmNovoElemento () {
+        Fila ru = new Fila(3);
+
+        ru.enfileirar("Diogo");
+        ru.enfileirar("Jonas");
+        ru.enfileirar("Filipe");
+
+        ru.desenfileirar();
+
+        ru.enfileirar("Daniel");
+
+        org.junit.Assert.assertEquals(
+            "Verificando o estado da fila",
+            "Jonas, Filipe, Daniel", ru.toString());
+    }
 }
