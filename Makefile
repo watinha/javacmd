@@ -49,19 +49,21 @@ compile:
 
 jar: compile
 jar:
-	@MAIN=`grep -r "public static void main" src/* | grep -v .swp| sed "s/src\/\(.*\).java:.*/\1/" | head -n 1`;\
-	echo "The main class of the jar file is: $$MAIN";\
-	$(CD) build;\
-	$(JAR) cvfe ../package.jar $$MAIN *;\
-	$(CD) ..
+	@if [ ! -e package.jar -o package.jar -ot build ]; then\
+		MAIN=`grep -r "public static void main" src/* | grep -v .swp| sed "s/src\/\(.*\).java:.*/\1/" | head -n 1`;\
+		echo "The main class of the jar file is: $$MAIN";\
+		$(CD) build;\
+		$(JAR) cvfe ../package.jar $$MAIN *;\
+		$(CD) ..;\
+	fi;
 
 run: jar
 run:
 	@echo "Running...";\
 	echo "";\
-	CLASSPATH="";\
+	CLASSPATH="./";\
 	for i in `find lib -name "*.jar"`; do\
-		CLASSPATH="$$i:$$CLASSPATH";\
+		CLASSPATH="$$CLASSPATH:$$i";\
 	done;\
 	$(JVM) -cp "$$CLASSPATH" -jar package.jar $$RUN_PARAMS;\
 	echo "";
