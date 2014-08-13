@@ -8,7 +8,6 @@ export CD="cd"
 export MKDIR="mkdir"
 export CLASSPATH=""
 export TEST_CLASSPATH=""
-export RUN_PARAMS=""
 
 help:
 	@echo "****************************************************"
@@ -72,7 +71,7 @@ run:
 	for i in `find lib -name "*.jar"`; do\
 		CLASSPATH="$$CLASSPATH:$$i";\
 	done;\
-	$(JVM) -cp "$$CLASSPATH" -jar package.jar $$RUN_PARAMS;\
+	$(JVM) -cp "$$CLASSPATH" -jar package.jar;\
 	echo "";
 
 init:
