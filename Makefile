@@ -47,15 +47,22 @@ compile:
 		echo "No changed files.";\
 	fi;
 
-jar: compile
+manifest: compile
+	@MAIN=`grep -r "public static void main" src/* | grep -v .swp| sed "s/src\/\(.*\).java:.*/\1/" | head -n 1`;\
+	CLASSPATH="./";\
+	for i in `find lib -name "*.jar"`; do\
+		CLASSPATH="$$CLASSPATH $$i";\
+	done;\
+	echo "The main class of the jar file is: $$MAIN";\
+	echo "Manifest-version: 1.0" > manifest.mf;\
+	echo "Main-Class: $$MAIN" >> manifest.mf;\
+	echo "Class-Path: $$CLASSPATH" >> manifest.mf;
+
+jar: manifest
 jar:
-	@if [ ! -e package.jar -o package.jar -ot build ]; then\
-		MAIN=`grep -r "public static void main" src/* | grep -v .swp| sed "s/src\/\(.*\).java:.*/\1/" | head -n 1`;\
-		echo "The main class of the jar file is: $$MAIN";\
-		$(CD) build;\
-		$(JAR) cvfe ../package.jar $$MAIN *;\
-		$(CD) ..;\
-	fi;
+	@$(CD) build;\
+	$(JAR) cfvm ../package.jar ../manifest.mf *;\
+	$(CD) ..;
 
 run: jar
 run:
