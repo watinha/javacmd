@@ -3,6 +3,8 @@ export JC="javac"
 export JAR="jar"
 export SH="sh"
 export RM="rm"
+export LN="ln"
+export CP="cp"
 export FLAGS=""
 export CD="cd"
 export MKDIR="mkdir"
@@ -104,6 +106,37 @@ test-compile: compile
 		fi;\
 	done
 
+webapp:
+	@if	[ ! -e webapp/ ]; then\
+		$(MKDIR) webapp/;\
+		$(MKDIR) webapp/web-inf/;\
+		touch webapp/web-inf/web.xml;\
+		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > webapp/web-inf/web.xml;\
+		echo "<web-app xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" >> webapp/web-inf/web.xml;\
+		echo "     xmlns=\"http://java.sun.com/xml/ns/javaee\"" >> webapp/web-inf/web.xml;\
+		echo "     xmlns:web=\"http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd\"" >> webapp/web-inf/web.xml;\
+		echo "     id=\"WebApp_ID\" version=\"3.0\">" >> webapp/web-inf/web.xml;\
+		echo "    <display-name>JavaCMD for Web</display-name>" >> webapp/web-inf/web.xml;\
+		echo "    <servlet>" >> webapp/web-inf/web.xml;\
+		echo "        <servlet-name></servlet-name>" >> webapp/web-inf/web.xml;\
+		echo "        <servlet-class></servlet-class>" >> webapp/web-inf/web.xml;\
+		echo "    </servlet>" >> webapp/web-inf/web.xml;\
+		echo "    <servlet-mapping>" >> webapp/web-inf/web.xml;\
+		echo "        <servlet-name></servlet-name>" >> webapp/web-inf/web.xml;\
+		echo "        <url-pattern></url-pattern>" >> webapp/web-inf/web.xml;\
+		echo "    </servlet-mapping>" >> webapp/web-inf/web.xml;\
+		echo "</web-app>" >> webapp/web-inf/web.xml;\
+		$(MKDIR) webapp/meta-inf;\
+	fi;
+
+war: webapp compile
+	@$(RM) -rf webapp/web-inf/classes webapp/web-inf/lib;\
+	$(CP) -r build webapp/web-inf/classes;\
+	$(CP) -r lib webapp/web-inf/lib;\
+	$(CD) webapp;\
+	$(JAR) cvf ../webapp.war .;\
+	$(CD) ../;
+
 clean:
 	@echo "cleanning build files...";\
 	$(RM) -rf build;\
@@ -112,4 +145,4 @@ clean:
     $(MKDIR) test/build;\
 	$(RM) *.jar
 
-.PHONY: compile clean run help init jar junit
+.PHONY: compile manifest clean run help init jar junit webapp war
