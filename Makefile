@@ -22,6 +22,8 @@ help:
 	@echo "    \033[32mrun         :\033[0m    - run the .jar file"
 	@echo "    \033[32mtest-compile:\033[0m    - compile the test files"
 	@echo "    \033[32mjunit       :\033[0m    - run all test files"
+	@echo "    \033[32mwebapp      :\033[0m    - creates a directory structure for JEE applications"
+	@echo "    \033[32mwar         :\033[0m    - creates a .war file to be deployed in a servlet container"
 	@echo "\n"
 
 compile:
