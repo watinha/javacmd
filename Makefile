@@ -128,7 +128,7 @@ webapp:
 		echo "        <url-pattern></url-pattern>" >> webapp/WEB-INF/web.xml;\
 		echo "    </servlet-mapping>" >> webapp/WEB-INF/web.xml;\
 		echo "</web-app>" >> webapp/WEB-INF/web.xml;\
-		$(MKDIR) webapp/meta-inf;\
+		$(MKDIR) webapp/META-INF;\
 	fi;
 
 war: webapp compile
