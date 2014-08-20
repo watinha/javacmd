@@ -57,14 +57,15 @@ manifest: compile
 		CLASSPATH="$$CLASSPATH $$i";\
 	done;\
 	echo "The main class of the jar file is: $$MAIN";\
-	echo "Manifest-version: 1.0" > manifest.mf;\
-	echo "Main-Class: $$MAIN" >> manifest.mf;\
-	echo "Class-Path: $$CLASSPATH" >> manifest.mf;
+	echo "Manifest-version: 1.0" > META-INF/manifest.mf;\
+	echo "Main-Class: $$MAIN" >> META-INF/manifest.mf;\
+	echo "Class-Path: $$CLASSPATH" >> META-INF/manifest.mf;
 
 jar: manifest
 jar:
 	@$(CD) build;\
-	$(JAR) cfvm ../package.jar ../manifest.mf *;\
+	$(CP) -r ../META-INF/ META-INF/;\
+	$(JAR) cfvm ../package.jar ../META-INF/manifest.mf *;\
 	$(CD) ..;
 
 run: jar
@@ -79,7 +80,7 @@ run:
 	echo "";
 
 init:
-	-@$(MKDIR) src lib build test test/build test/src test/lib
+	-@$(MKDIR) src lib build test test/build test/src test/lib META-INF/
 
 junit: test-compile
 	@echo "running jUnit tests...";\
@@ -128,13 +129,13 @@ webapp:
 		echo "        <url-pattern></url-pattern>" >> webapp/WEB-INF/web.xml;\
 		echo "    </servlet-mapping>" >> webapp/WEB-INF/web.xml;\
 		echo "</web-app>" >> webapp/WEB-INF/web.xml;\
-		$(MKDIR) webapp/META-INF;\
 	fi;
 
 war: webapp compile
 	@$(RM) -rf webapp/WEB-INF/classes webapp/WEB-INF/lib;\
 	$(CP) -r build webapp/WEB-INF/classes;\
 	$(CP) -r lib webapp/WEB-INF/lib;\
+	$(CP) -r META-INF/ webapp/META-INF/;\
 	$(CD) webapp;\
 	$(JAR) cvf ../webapp.war .;\
 	$(CD) ../;
