@@ -140,6 +140,35 @@ war: webapp compile
 	$(JAR) cvf ../webapp.war .;\
 	$(CD) ../;
 
+persistence:
+	@if	[ ! -e META-INF/persistence.xml ]; then\
+		echo "<persistence xmlns=\"http://java.sun.com/xml/ns/persistence\"" > META-INF/persistence.xml;\
+		echo "	  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" >> META-INF/persistence.xml;\
+		echo "	  xsi:schemaLocation=\"http://java.sun.com/xml/ns/persistence" >> META-INF/persistence.xml;\
+		echo "	     http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd\"" >> META-INF/persistence.xml;\
+		echo "	  version=\"2.0\">" >> META-INF/persistence.xml;\
+		echo "    <persistence-unit name=\"tarefas\">" >> META-INF/persistence.xml;\
+		echo "        <provider>org.hibernate.ejb.HibernatePersistence</provider>" >> META-INF/persistence.xml;\
+		echo "        <class>br.com.caelum.tarefas.modelo.Tarefa</class>" >> META-INF/persistence.xml;\
+		echo "        <properties>" >> META-INF/persistence.xml;\
+		echo "            <property name=\"javax.persistence.jdbc.driver\"" >> META-INF/persistence.xml;\
+		echo "                      value=\"com.mysql.jdbc.Driver\" />" >> META-INF/persistence.xml;\
+		echo "            <property name=\"javax.persistence.jdbc.url\"" >> META-INF/persistence.xml;\
+		echo "                      value=\"jdbc:mysql://localhost/fj21\" />" >> META-INF/persistence.xml;\
+		echo "            <property name=\"javax.persistence.jdbc.user\"" >> META-INF/persistence.xml;\
+		echo "                      value=\"root\" />" >> META-INF/persistence.xml;\
+		echo "            <property name=\"javax.persistence.jdbc.password\"" >> META-INF/persistence.xml;\
+		echo "                      value=\"\" />" >> META-INF/persistence.xml;\
+		echo "            <property name=\"hibernate.dialect\"" >> META-INF/persistence.xml;\
+		echo "                       value=\"org.hibernate.dialect.MySQL5InnoDBDialect\" />" >> META-INF/persistence.xml;\
+		echo "            <property name=\"hibernate.show_sql\" value=\"true\" />" >> META-INF/persistence.xml;\
+		echo "            <property name=\"hibernate.format_sql\" value=\"true\" />" >> META-INF/persistence.xml;\
+		echo "            <property name=\"hibernate.hbm2ddl.auto\" value=\"update\" />" >> META-INF/persistence.xml;\
+		echo "        </properties>" >> META-INF/persistence.xml;\
+		echo "    </persistence-unit>" >> META-INF/persistence.xml;\
+		echo "</persistence>" >> META-INF/persistence.xml;\
+	fi
+
 clean:
 	@echo "cleanning build files...";\
 	$(RM) -rf build;\
@@ -148,4 +177,4 @@ clean:
     $(MKDIR) test/build;\
 	$(RM) *.jar
 
-.PHONY: compile manifest clean run help init jar junit webapp war
+.PHONY: persistence compile manifest clean run help init jar junit webapp war
