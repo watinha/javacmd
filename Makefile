@@ -172,4 +172,4 @@ clean:
     $(MKDIR) test/build;\
 	$(RM) *.jar
 
-.PHONY: persistence compile manifest clean run help init jar junit webapp war
+.PHONY: compile manifest clean run help init jar junit webapp war persistence
