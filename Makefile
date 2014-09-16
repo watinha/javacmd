@@ -159,6 +159,8 @@ persistence:
 		echo "                      value=\"root\" />" >> META-INF/persistence.xml;\
 		echo "            <property name=\"javax.persistence.jdbc.password\"" >> META-INF/persistence.xml;\
 		echo "                      value=\"\" />" >> META-INF/persistence.xml;\
+		echo "			  <property name=\"openjpa.jdbc.SynchronizeMappings\"">>META-INF/persistence.xml;\
+		echo "						value=\"buildSchema(ForeignKeys=true)\"/>">>META-INF/persistence.xml;\
 		echo "        </properties>" >> META-INF/persistence.xml;\
 		echo "    </persistence-unit>" >> META-INF/persistence.xml;\
 		echo "</persistence>" >> META-INF/persistence.xml;\
