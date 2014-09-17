@@ -166,6 +166,43 @@ persistence:
 		echo "</persistence>" >> META-INF/persistence.xml;\
 	fi
 
+jsf: webapp
+	@touch webapp/WEB-INF/web.xml;\
+	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > webapp/WEB-INF/web.xml;\
+	echo "<web-app xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" >> webapp/WEB-INF/web.xml;\
+	echo "     xmlns=\"http://java.sun.com/xml/ns/javaee\"" >> webapp/WEB-INF/web.xml;\
+	echo "     xmlns:web=\"http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd\"" >> webapp/WEB-INF/web.xml;\
+	echo "     id=\"WebApp_ID\" version=\"3.0\">" >> webapp/WEB-INF/web.xml;\
+	echo "    <display-name>JavaCMD for Web</display-name>" >> webapp/WEB-INF/web.xml;\
+	echo "    <servlet>" >> webapp/WEB-INF/web.xml;\
+	echo "        <servlet-name>Faces Servlet</servlet-name>" >> webapp/WEB-INF/web.xml;\
+	echo "        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>" >> webapp/WEB-INF/web.xml;\
+	echo "    </servlet>" >> webapp/WEB-INF/web.xml;\
+	echo "    <servlet-mapping>" >> webapp/WEB-INF/web.xml;\
+	echo "        <servlet-name>Faces Servlet</servlet-name>" >> webapp/WEB-INF/web.xml;\
+	echo "        <url-pattern>/faces/*</url-pattern>" >> webapp/WEB-INF/web.xml;\
+	echo "    </servlet-mapping>" >> webapp/WEB-INF/web.xml;\
+	echo "    <welcome-file-list>" >> webapp/WEB-INF/web.xml;\
+	echo "        <welcome-file>faces/index.xhtml</welcome-file>" >> webapp/WEB-INF/web.xml;\
+	echo "    </welcome-file-list>" >> webapp/WEB-INF/web.xml;\
+	echo "    <context-param>" >> webapp/WEB-INF/web.xml;\
+	echo "        <param-name>javax.faces.PROJECT_STAGE</param-name>" >> webapp/WEB-INF/web.xml;\
+	echo "        <param-value>Development</param-value>" >> webapp/WEB-INF/web.xml;\
+	echo "    </context-param>" >> webapp/WEB-INF/web.xml;\
+	echo "    <listener>" >> webapp/WEB-INF/web.xml;\
+	echo "        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>" >> webapp/WEB-INF/web.xml;\
+	echo "    </listener>" >> webapp/WEB-INF/web.xml;\
+	echo "</web-app>" >> webapp/WEB-INF/web.xml;
+	@touch webapp/WEB-INF/faces-config.xml;\
+	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > webapp/WEB-INF/faces-config.xml;\
+	echo "<faces-config" >> webapp/WEB-INF/faces-config.xml;\
+	echo "	xmlns=\"http://java.sun.com/xml/ns/javaee\"" >> webapp/WEB-INF/faces-config.xml;\
+	echo "	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" >> webapp/WEB-INF/faces-config.xml;\
+	echo "	xsi:schemaLocation=\"http://java.sun.com/xml/ns/javaee" >> webapp/WEB-INF/faces-config.xml;\
+	echo "	http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd\"" >> webapp/WEB-INF/faces-config.xml;\
+	echo "	version=\"2.0\">" >> webapp/WEB-INF/faces-config.xml;\
+	echo "</faces-config>" >> webapp/WEB-INF/faces-config.xml;
+
 clean:
 	@echo "cleanning build files...";\
 	$(RM) -rf build;\
