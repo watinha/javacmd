@@ -53,7 +53,7 @@ compile:
 	cp -rf META-INF/ build/META-INF;
 
 manifest: compile
-	@MAIN=`grep -r "public static void main" src/* | grep -v .swp| sed "s/src\/\(.*\).java:.*/\1/" | head -n 1`;\
+	@MAIN=`grep -r "public static void main" src/ | grep -v .swp| sed "s/src\/\(.*\).java:.*/\1/" | head -n 1`;\
 	CLASSPATH="./";\
 	for i in `find lib -name "*.jar"`; do\
 		CLASSPATH="$$CLASSPATH $$i";\
