@@ -48,7 +48,9 @@ compile:
 		$(JC) -d build -cp "$$CLASSPATH:build/" $$CHANGED;\
 	else\
 		echo "No changed files.";\
-	fi;
+	fi;\
+	echo "copying META-INF to build...";\
+	cp -rf META-INF/ build/META-INF;
 
 manifest: compile
 	@MAIN=`grep -r "public static void main" src/* | grep -v .swp| sed "s/src\/\(.*\).java:.*/\1/" | head -n 1`;\
@@ -64,7 +66,6 @@ manifest: compile
 jar: manifest
 jar:
 	@$(CD) build;\
-	$(CP) -r ../META-INF/ META-INF/;\
 	$(JAR) cfvm ../package.jar ../META-INF/manifest.mf *;\
 	$(CD) ..;
 
@@ -135,7 +136,6 @@ war: webapp compile
 	@$(RM) -rf webapp/WEB-INF/classes webapp/WEB-INF/lib;\
 	$(CP) -r build webapp/WEB-INF/classes;\
 	$(CP) -r lib webapp/WEB-INF/lib;\
-	$(CP) -r META-INF/ webapp/META-INF/;\
 	$(CD) webapp;\
 	$(JAR) cvf ../webapp.war .;\
 	$(CD) ../;
