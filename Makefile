@@ -50,7 +50,7 @@ compile:
 		echo "No changed files.";\
 	fi;\
 	echo "copying META-INF to build...";\
-	cp -rf META-INF/ build/META-INF;
+	cp -rf META-INF build/;
 
 manifest: compile
 	@MAIN=`grep -r "public static void main" src | grep -v .swp| sed "s/src\/\(.*\).java:.*/\1/" | head -n 1`;\
