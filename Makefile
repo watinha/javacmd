@@ -211,4 +211,10 @@ clean:
     $(MKDIR) test/build;\
 	$(RM) *.jar
 
-.PHONY: compile manifest clean run help init jar junit webapp war persistence
+enhancer: compile
+enhancer:
+	cd build/;\
+	java -cp ../lib/openjpa-all-2.3.0.jar:. org.apache.openjpa.enhance.PCEnhancer --properties META-INF/persistence.xml;\
+	cd ../;
+
+.PHONY: compile manifest clean run help init jar junit webapp war persistence enhancer
